@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module4-Lab-Template</title>
+    <link href="./style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <template id="card-template">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">My First Card</div>
+                <div class="card-text">This my First Card to learn Templates and Dynamic Template.</div>
+                <div><a class="web-url" id="web-pages" href="#" target="_blank">Visit Web Site</a></div>
+            </div>
+        </div>
+    </template>
+    <div id="card-banner" class="banner-flex-container">Dynamic Template</div>
+    <div id="card-list" class="flex-container">
+        <!-- Add dynamically created cards here -->
+    </div>
+
+    <script type="module">
+        // import {data} from "./person-data.js";
+        import { unisData, data } from "./card-data.js";
+
+        // After Page loading completed i.e DOM has been rendered.
+        window.onload = function () {
+            addCard();
+            addUniCard();
+            let totalRecords = data.length + unisData.length
+            document.getElementById("card-banner").innerText = "Number of Cards added Dynamically to Template = " + totalRecords;
+        }
+
+        //Use below data as Data for creating Dynamic Cards.
+
+
+        // Data for lab 3  Artist Card
+
+        function addCard() {
+            getCardsData(data); // Get Data for Dynamically for Cards from an array of cards.
+        }
+        // iterate through an array of Data for creating Dynamic CARD ( One at a time)  and keep appending it to HTML Element.
+        function getCardsData(personDataForCards) {
+            let cardsData = [];
+            for (let card of personDataForCards) {
+                const cardData = populateCardTemplate(card);
+                cardsData.push(cardData);
+            }
+        }
+        function populateCardTemplate(data) {
+            const newDynamicTemplate = document.getElementById("card-template").content.cloneNode(true);
+            newDynamicTemplate.querySelector(".card-title").innerText = `Person's Name -  ` + data.name;
+            newDynamicTemplate.querySelector(".card-text").innerText = `Person's age - ` + data.age;
+            newDynamicTemplate.querySelector(".web-url").href = data.web_url;
+            document.querySelector('#card-list')// NOTE: # used as - queryselector follow CSS syntax.
+                .appendChild(newDynamicTemplate);
+
+        }
+
+        ///_____________________________________________________________
+
+
+        function addUniCard() {
+            getUniCardsData(unisData); // Get Data for Dynamically for Cards from an array of cards.
+        }
+        // iterate through an array of Data for creating Dynamic CARD ( One at a time)  and keep appending it to HTML Element.
+        function getUniCardsData(uniDataForCards) {
+            let uniCardsData = [];
+            for (let uniCard of uniDataForCards) {
+                const uniCardData = populateUniCardTemplate(uniCard);
+                uniCardsData.push(uniCardData);
+            }
+        }
+        function populateUniCardTemplate(uni) {
+            const newDynamicTemplate = document.getElementById("card-template").content.cloneNode(true);
+            newDynamicTemplate.querySelector(".card-title").innerText = uni.name;
+            newDynamicTemplate.querySelector(".card-text").innerText = uni.country;
+            newDynamicTemplate.querySelector(".web-url").href = uni.web_pages;
+            //add to template
+            document.querySelector('#card-list')// NOTE: # used as - queryselector follow CSS syntax.
+                .appendChild(newDynamicTemplate);
+
+        }
+
+
+    </script>
+</body>
+
+</html>
